@@ -1,10 +1,34 @@
 import { Titular, buscartTitulares } from "./model/Titular.js";
-import { Conta } from "./model/Conta.js";
+import { Conta, pegarContas } from "./model/Conta.js";
+import express from 'express'
 
-let titulares = buscartTitulares()
+const app = express()
 
-let c1 = new Conta(1000, 1234, 4142, 2221342, titulares[0])
-let c2 = new Conta(4271, 4212, 4142, 4218212, titulares[1])
-let c3 = new Conta(8321521908, 5038, 4142, 4534245, titulares[2])
+app.get('/', function (req, res){
+    
+    let titulares = buscartTitulares()
+    let contas = pegarContas(titulares)
+    res.json(contas)
 
-let contas = [c1, c2, c3]
+})
+
+app.get('/autenticar/:agencia/:digito/:senha', function (req, res) {
+    // obter da requisição os dados
+    let agencia = parseInt(req.params.agencia)
+    let digito = parseInt(req.params.digito)
+    let senha = parseInt(req.params.senha)
+
+    
+    // // buscar dados das contas
+    let titulares = buscartTitulares()
+    let contas = pegarContas(titulares)
+
+    contas.forEach(conta =>{
+       if (conta.agencia == agencia && conta.senha == senha && conta.digito == digito) {
+        res.json({resp: true})
+       }
+    })
+    res.json({resp: false})
+})
+
+app.listen(3000)

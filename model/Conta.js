@@ -1,3 +1,4 @@
+import { Titular, buscartTitulares } from "./Titular.js"
 class Conta {
 
     constructor(saldo, senha, agencia, digito, titular){
@@ -37,4 +38,16 @@ class Conta {
     }
 }
 
-export {Conta}
+function pegarContas(titulares) {
+        
+        
+        let c1 = new Conta(1000, 1234, 4142, 3321, titulares[0])
+        let c2 = new Conta(4271, 4212, 4142, 4218212, titulares[1])
+        let c3 = new Conta(10000, 5038, 4142, 4534245, titulares[2])
+        
+        let contas = [c1, c2, c3]
+        
+        return contas
+}
+
+export {Conta, pegarContas}
